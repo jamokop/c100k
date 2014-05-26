@@ -1,5 +1,5 @@
 var siteName;
-if [ -n "$1" ]; then siteName="testsite.com"; else siteName=$1; fi 
+if [ -z "$1" ]; then siteName="testsite.com"; else siteName=$1; fi 
 
 # install debian packages
 apt-get update
@@ -25,4 +25,4 @@ echo "CREATE DATABASE wordpress;GRANT ALL PRIVILEGES ON wordpress.* TO admin@loc
 
 # get the configured nginx.conf and replace the nginx.conf
 wget https://raw.githubusercontent.com/rayhon/c100k/master/php-web/nginx.conf
-sed -i '' "s/testsite/$siteName/g" nginx.conf 
+sed -i '' "s/DOMAIN/$siteName/g" nginx.conf 
