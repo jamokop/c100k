@@ -26,3 +26,4 @@ echo "CREATE DATABASE wordpress;GRANT ALL PRIVILEGES ON wordpress.* TO admin@loc
 # get the configured nginx.conf and replace the nginx.conf
 wget https://raw.githubusercontent.com/rayhon/c100k/master/php-web/nginx.conf
 sed -i '' "s/DOMAIN/$siteName/g" nginx.conf 
+cp nginx.conf /etc/nginx/nginx.conf
