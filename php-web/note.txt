@@ -1,0 +1,51 @@
+Performance Tuning Notes
+============================
+(1) A properly tuned Nginx server on Linux can handle 500,000 - 600,000 requests per second
+
+ref: http://dak1n1.com/blog/12-nginx-performance-tuning
+
+---------------------------
+(2) Kernel Limit
+---------------------------
+One important thing to keep in mind when load-testing is that there are only so many socket connections you can have in Linux. This is a hard-coded kernel limitation, known as the Ephemeral Ports Issue. You can extend it (to some extent) in /etc/sysctl.conf; but basically, a Linux machine can only have about 64,000 sockets open at once. 
+
+ref: http://aleccolocco.blogspot.com/2008/11/ephemeral-ports-problem-and-solution.html
+
+---------------------------
+(3) TCP stack tuning
+---------------------------
+This section applies to any web server, not just Nginx. Tuning the kernel's TCP settings will help you make the most of your bandwidth. These settings worked best for me on a 10-Gbase-T network. My network's performance went from ~8Gbps with the default system settings, to 9.3Gbps, using these tuned settings. As always, your mileage may vary. When tuning these options, I recommend changing just one at a time. Then run a network benchmark tool like 'netperf', 'iperf', or something like my script, cluster-netbench.pl, to test more than one pair of nodes at a time. 
+
+yum -y install netperf iperf
+vim /etc/sysctl.conf   #detail check the system/sysctl.conf
+
+
+---------------------------
+(4) Load Testing
+---------------------------
+* apache bench (generate 900-2000 req/s)
+
+* httppref
+    * A total of 100,000 connections created, and the connections are created at a fixed rate of 20,000 per second.
+    * But it doesn't support distributed load generation
+
+httperf --hog --server 192.168.122.10 --num-conn 100000 --ra 20000 --timeout 5
+
+* jmeter
+    * This is a full-featured web application test suite, that can simulate all kinds of real-life user behavior. You can use Jmeter's proxy to visit your website, click around, login, do whatever users do, and then have Jmeter record that behavior as the test case. Jmeter then performs those actions over and over, using as many simulated "users" as you like. This was very interesting to see! Though considerably more complex to configure than 'ab' and 'httperf'. (20-30k req/sec)
+
+* tsung
+This was a clear winner. Almost instantly, I was getting 40,000 requests/sec with this tool. Like Jmeter, you can record behaviors for the tests to run through, and test many protocols like SSL, HTTP, WebDAV, SOAP, PostgreSQL, MySQL, LDAP and Jabber/XMPP. Unlike Jmeter, there's no confusing GUI to get lost in. Just an XML config file, and some SSH keys to the distributed nodes of your choice. The minimalism and efficiency of this tool appealed to me as much as its robustness and scalability. I found it to be extremely powerful, generating millions of http requests per second with the right config. In addition to all that, Tsung also generates graphs and writes out a detailed report of your test runs in html. Test results are easy to understand, and there's pictures so you can even show your boss! ;)
+
+yum -y install erlang perl perl-RRD-Simple.noarch perl-Log-Log4perl-RRDs.noarch gnuplot perl-Template-Toolkit firefox
+wget http://tsung.erlang-projects.org/dist/tsung-1.4.2.tar.gz
+tar zxfv  tsung-1.4.2.tar.gz
+cd tsung-1.4.2
+./configure && make && make install
+cp  /usr/share/doc/tsung/examples/http_simple.xml /root/.tsung/tsung.xml
+tsung start
+
+ref: http://dak1n1.com/blog/14-http-load-generate
+
+
+
