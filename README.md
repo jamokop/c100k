@@ -3,14 +3,14 @@ c100k
 
 Performance Tuning Notes
 ============================
-Powerful Stack
+## Powerful Stack
+* Varnish as a caching proxy (reverse proxy)
+* Nginx as a webserver
+* PHP-FPM as a fastCGI server
+* APC as an opcode cache
+* MySQL as a database server 
 
-   Varnish as a caching proxy (reverse proxy)
-   Nginx as a webserver
-   PHP-FPM as a fastCGI server
-   APC as an opcode cache
-   MySQL as a database server 
-
+## Notes
 * A properly tuned Nginx server on Linux can handle 500,000 - 600,000 requests per second
 * Ramdisk for mysql?
 * I prefer to use Redis to cache the content. If so, I may take out Varnish
@@ -18,9 +18,7 @@ Powerful Stack
 * We need to secure the VPS via iptables
 * load balancing: http://www.nginxtips.com/how-to-configure-nginx-load-balancing/
 
-
-General Rules to follow
----------------------------
+## General Rules to follow
 * Use highly optimized markup code
 * Use inline css data to serve core site images.
 * Run Nginx instead of Apache (lighter and faster)
