@@ -1,23 +1,65 @@
+============================
 Performance Tuning Notes
 ============================
-(1) A properly tuned Nginx server on Linux can handle 500,000 - 600,000 requests per second
+Powerful Stack
+
+(0) Varnish as a caching proxy (reverse proxy)
+(1) Nginx as a webserver
+(2) PHP-FPM as a fastCGI server
+(3) APC as an opcode cache
+(4) MySQL as a database server 
+
+* A properly tuned Nginx server on Linux can handle 500,000 - 600,000 requests per second
+* Ramdisk for mysql?
+* I prefer to use Redis to cache the content. If so, I may take out Varnish
+* It's not recommended to use PHP5-FPM via unix socket for more than 300+ concurrent connections due to you will definitely get nasty error: sock failed (11: Resource temporarily unavailable) or connect() failed (11: Resource temporarily unavailable) depending on your version, (you may need to increase start_servers, or min/max_spare_servers), and and every 5th page will be return Error 502. By using tcp/ip as a handler you will get more stability but will loose around 10 connection on each 100 concurrent connection in performance.
+* We need to secure the VPS via iptables
+* load balancing: http://www.nginxtips.com/how-to-configure-nginx-load-balancing/
+
+---------------------------
+General Rules to follow
+---------------------------
+* Use highly optimized markup code
+* Use inline css data to serve core site images.
+* Run Nginx instead of Apache (lighter and faster)
+* Compress and cache as much as possible using Nginx
+* Run Varnish as frontend to Nginx, which gives wicked fast response times. Basically, it serves your entire site as static files–out of memory.
+* Use Cloudflare which sits in front of all this, cache images and CSS and serves them from local distribution points worldwide, and filter out all of my junk traffic such as bots adn low-level web attacks.
+
 
 ref: http://dak1n1.com/blog/12-nginx-performance-tuning
 
 ---------------------------
-(2) Kernel Limit
+(1) Kernel Limit
 ---------------------------
 One important thing to keep in mind when load-testing is that there are only so many socket connections you can have in Linux. This is a hard-coded kernel limitation, known as the Ephemeral Ports Issue. You can extend it (to some extent) in /etc/sysctl.conf; but basically, a Linux machine can only have about 64,000 sockets open at once. 
 
 ref: http://aleccolocco.blogspot.com/2008/11/ephemeral-ports-problem-and-solution.html
 
 ---------------------------
-(3) TCP stack tuning
+(2) TCP stack tuning
 ---------------------------
 This section applies to any web server, not just Nginx. Tuning the kernel's TCP settings will help you make the most of your bandwidth. These settings worked best for me on a 10-Gbase-T network. My network's performance went from ~8Gbps with the default system settings, to 9.3Gbps, using these tuned settings. As always, your mileage may vary. When tuning these options, I recommend changing just one at a time. Then run a network benchmark tool like 'netperf', 'iperf', or something like my script, cluster-netbench.pl, to test more than one pair of nodes at a time. 
 
 yum -y install netperf iperf
 vim /etc/sysctl.conf   #detail check the system/sysctl.conf
+
+But all these settings above are useless without fixing ulimit parameter for you Linux. For Debian based Linux it should be done in /etc/security/limits.conf
+
+nginx soft nofile 131072
+nginx soft nofile 131072
+mysql soft nofile 131072
+mysql soft nofile 131072
+root soft nofile 131072
+root soft nofile 131072
+
+---------------------------
+(3) Dignosis Tools
+---------------------------
+* ps aux
+* free -m (check how much memory been used and free to use)
+* netstat -tulpn (check what is running on which port)
+* grep processor /proc/cpuinfo | wc -l //check # of cores
 
 
 ---------------------------
@@ -45,7 +87,19 @@ cd tsung-1.4.2
 cp  /usr/share/doc/tsung/examples/http_simple.xml /root/.tsung/tsung.xml
 tsung start
 
+NOTE:
+all load test above is all about the throughput of server request /response. It doesn't consider the time the page got rendered in UI that includes image download, javascript run and etc. You need to use the tool like Load Impact for this purpose.
+
 ref: http://dak1n1.com/blog/14-http-load-generate
 
 
+-------------------------------
+Reference
+-------------------------------
+* http://calendar.perfplanet.com/2012/using-nginx-php-fpmapc-and-varnish-to-make-wordpress-websites-fly/
+* http://blog.nas-admin.org/?p=25
+* http://www.garron.me/en/linux/nginx-php-fpm-mysql-apc-varnish-wordpress-cache-performance.html
+* http://axelsegebrecht.com/how-to/install-nginx-apc-varnish-wordpress-and-w3-cache-128mb-vps/
+* http://www.danielmiessler.com/blog/10-ways-to-test-your-website-performance
+* http://dak1n1.com/blog/12-nginx-performance-tuning
 
