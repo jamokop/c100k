@@ -49,7 +49,7 @@ mkdir -p /var/www/$1
 wget http://wordpress.org/latest.tar.gz
 tar -zxvf latest.tar.gz
 mv wordpress/* /var/www/$1
-rmdir wordpress
+rm -rf wordpress
 rm latest.tar.gz
 # set up mysql db for wordpress
 echo "CREATE DATABASE IF NOT EXIST wordpress;GRANT ALL PRIVILEGES ON wordpress.* TO admin@localhost IDENTIFIED BY 'pass' WITH GRANT OPTION;FLUSH PRIVILEGES;" | mysql -u root
