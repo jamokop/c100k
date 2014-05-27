@@ -18,7 +18,7 @@ Powerful Stack
 * We need to secure the VPS via iptables
 * load balancing: http://www.nginxtips.com/how-to-configure-nginx-load-balancing/
 
----------------------------
+
 General Rules to follow
 ---------------------------
 * Use highly optimized markup code
@@ -31,16 +31,16 @@ General Rules to follow
 
 ref: http://dak1n1.com/blog/12-nginx-performance-tuning
 
----------------------------
+
 (1) Kernel Limit
----------------------------
+============================
 One important thing to keep in mind when load-testing is that there are only so many socket connections you can have in Linux. This is a hard-coded kernel limitation, known as the Ephemeral Ports Issue. You can extend it (to some extent) in /etc/sysctl.conf; but basically, a Linux machine can only have about 64,000 sockets open at once. 
 
 ref: http://aleccolocco.blogspot.com/2008/11/ephemeral-ports-problem-and-solution.html
 
----------------------------
+
 (2) TCP stack tuning
----------------------------
+============================
 This section applies to any web server, not just Nginx. Tuning the kernel's TCP settings will help you make the most of your bandwidth. These settings worked best for me on a 10-Gbase-T network. My network's performance went from ~8Gbps with the default system settings, to 9.3Gbps, using these tuned settings. As always, your mileage may vary. When tuning these options, I recommend changing just one at a time. Then run a network benchmark tool like 'netperf', 'iperf', or something like my script, cluster-netbench.pl, to test more than one pair of nodes at a time. 
 
 yum -y install netperf iperf
@@ -55,18 +55,18 @@ mysql soft nofile 131072
 root soft nofile 131072
 root soft nofile 131072
 
----------------------------
+
 (3) Dignosis Tools
----------------------------
+============================
 * ps aux
 * free -m (check how much memory been used and free to use)
 * netstat -tulpn (check what is running on which port)
 * grep processor /proc/cpuinfo | wc -l //check # of cores
 
 
----------------------------
+
 (4) Load Testing
----------------------------
+============================
 * apache bench (generate 900-2000 req/s)
 
 * httppref
@@ -95,9 +95,9 @@ all load test above is all about the throughput of server request /response. It 
 ref: http://dak1n1.com/blog/14-http-load-generate
 
 
--------------------------------
+
 Reference
--------------------------------
+============================
 * http://calendar.perfplanet.com/2012/using-nginx-php-fpmapc-and-varnish-to-make-wordpress-websites-fly/
 * http://blog.nas-admin.org/?p=25
 * http://www.garron.me/en/linux/nginx-php-fpm-mysql-apc-varnish-wordpress-cache-performance.html
