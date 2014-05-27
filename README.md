@@ -5,11 +5,11 @@ Performance Tuning Notes
 ============================
 Powerful Stack
 
-# Varnish as a caching proxy (reverse proxy)
-# Nginx as a webserver
-# PHP-FPM as a fastCGI server
-# APC as an opcode cache
-# MySQL as a database server 
+   Varnish as a caching proxy (reverse proxy)
+   Nginx as a webserver
+   PHP-FPM as a fastCGI server
+   APC as an opcode cache
+   MySQL as a database server 
 
 * A properly tuned Nginx server on Linux can handle 500,000 - 600,000 requests per second
 * Ramdisk for mysql?
