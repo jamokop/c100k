@@ -5,11 +5,11 @@ Performance Tuning Notes
 ============================
 Powerful Stack
 
-(0) Varnish as a caching proxy (reverse proxy)
-(1) Nginx as a webserver
-(2) PHP-FPM as a fastCGI server
-(3) APC as an opcode cache
-(4) MySQL as a database server 
+# Varnish as a caching proxy (reverse proxy)
+# Nginx as a webserver
+# PHP-FPM as a fastCGI server
+# APC as an opcode cache
+# MySQL as a database server 
 
 * A properly tuned Nginx server on Linux can handle 500,000 - 600,000 requests per second
 * Ramdisk for mysql?
@@ -79,7 +79,7 @@ httperf --hog --server 192.168.122.10 --num-conn 100000 --ra 20000 --timeout 5
     * This is a full-featured web application test suite, that can simulate all kinds of real-life user behavior. You can use Jmeter's proxy to visit your website, click around, login, do whatever users do, and then have Jmeter record that behavior as the test case. Jmeter then performs those actions over and over, using as many simulated "users" as you like. This was very interesting to see! Though considerably more complex to configure than 'ab' and 'httperf'. (20-30k req/sec)
 
 * tsung
-This was a clear winner. Almost instantly, I was getting 40,000 requests/sec with this tool. Like Jmeter, you can record behaviors for the tests to run through, and test many protocols like SSL, HTTP, WebDAV, SOAP, PostgreSQL, MySQL, LDAP and Jabber/XMPP. Unlike Jmeter, there's no confusing GUI to get lost in. Just an XML config file, and some SSH keys to the distributed nodes of your choice. The minimalism and efficiency of this tool appealed to me as much as its robustness and scalability. I found it to be extremely powerful, generating millions of http requests per second with the right config. In addition to all that, Tsung also generates graphs and writes out a detailed report of your test runs in html. Test results are easy to understand, and there's pictures so you can even show your boss! ;)
+   * This was a clear winner. Almost instantly, I was getting 40,000 requests/sec with this tool. Like Jmeter, you can record behaviors for the tests to run through, and test many protocols like SSL, HTTP, WebDAV, SOAP, PostgreSQL, MySQL, LDAP and Jabber/XMPP. Unlike Jmeter, there's no confusing GUI to get lost in. Just an XML config file, and some SSH keys to the distributed nodes of your choice. The minimalism and efficiency of this tool appealed to me as much as its robustness and scalability. I found it to be extremely powerful, generating millions of http requests per second with the right config. In addition to all that, Tsung also generates graphs and writes out a detailed report of your test runs in html. Test results are easy to understand, and there's pictures so you can even show your boss! ;)
 
 yum -y install erlang perl perl-RRD-Simple.noarch perl-Log-Log4perl-RRDs.noarch gnuplot perl-Template-Toolkit firefox
 wget http://tsung.erlang-projects.org/dist/tsung-1.4.2.tar.gz
