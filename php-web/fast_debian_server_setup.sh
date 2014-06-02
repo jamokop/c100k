@@ -18,7 +18,7 @@ apt-get -y install nginx
 apt-get -y install redis-server
 export DEBIAN_FRONTEND=noninteractive
 apt-get -q -y install mysql-server mysql-client
-apt-get install varnish
+apt-get -y install varnish
 
 
 # ==============================================================
@@ -65,7 +65,7 @@ mv wordpress/* /var/www/$1
 rm -rf wordpress
 rm latest.tar.gz
 # set up mysql db for wordpress
-echo "CREATE DATABASE IF NOT EXIST wordpress;GRANT ALL PRIVILEGES ON wordpress.* TO admin@localhost IDENTIFIED BY 'pass' WITH GRANT OPTION;FLUSH PRIVILEGES;" | mysql -u root
+echo "CREATE DATABASE IF NOT EXISTS wordpress;GRANT ALL PRIVILEGES ON wordpress.* TO admin@localhost IDENTIFIED BY 'pass' WITH GRANT OPTION;FLUSH PRIVILEGES;" | mysql -u root
 
 
 /etc/init.d/php5-fpm restart
