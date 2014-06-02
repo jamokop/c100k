@@ -4,6 +4,8 @@ if [ -z "$1" ]; then siteName="testsite.com"; else siteName=$1; fi
 # set the debian sources
 echo "deb http://packages.dotdeb.org wheezy-php55 all" >> /etc/apt/sources.list
 echo "deb-src http://packages.dotdeb.org wheezy-php55 all" >> /etc/apt/sources.list
+curl http://repo.varnish-cache.org/debian/GPG-key.txt | apt-key add -
+echo "deb http://repo.varnish-cache.org/debian/ wheezy varnish-3.0" >> /etc/apt/sources.list
 wget http://www.dotdeb.org/dotdeb.gpg
 cat dotdeb.gpg | sudo apt-key add -
 
@@ -16,6 +18,7 @@ apt-get -y install nginx
 apt-get -y install redis-server
 export DEBIAN_FRONTEND=noninteractive
 apt-get -q -y install mysql-server mysql-client
+apt-get install varnish
 
 
 # ==============================================================
@@ -41,6 +44,16 @@ sed -i "s/DOMAIN/$siteName/g" fpm-app.conf
 mv fpm-app.conf /etc/php5/fpm/pool.d/$siteName.conf
 mv apc.ini /etc/php5/fpm/conf.d
 
+
+# ==============================================================
+# Varnish configuration
+# Get the configured wordpress.vcl and replace the default.vcl
+# ==============================================================
+wget https://raw.githubusercontent.com/rayhon/c100k/master/php-web/varnish/wordpress.vcl
+mv /etc/varnish/default.vcl /etc/varnish/default.vcl.orig
+mv wordpress.vcl /etc/varnish/default.vcl
+
+
 # ==============================================================
 # Wordpress Installation
 # ==============================================================
@@ -57,3 +70,4 @@ echo "CREATE DATABASE IF NOT EXIST wordpress;GRANT ALL PRIVILEGES ON wordpress.*
 
 /etc/init.d/php5-fpm restart
 /etc/init.d/nginx restart
+/etc/init.d/varnish restart
