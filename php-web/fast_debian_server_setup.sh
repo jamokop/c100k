@@ -58,10 +58,10 @@ mv wordpress.vcl /etc/varnish/default.vcl
 # Wordpress Installation
 # ==============================================================
 # get latest wordpress version
-mkdir -p /var/www/$1
+mkdir -p /var/www/$sitename
 wget http://wordpress.org/latest.tar.gz
 tar -zxvf latest.tar.gz
-mv wordpress/* /var/www/$1
+mv wordpress/* /var/www/$sitename
 rm -rf wordpress
 rm latest.tar.gz
 # set up mysql db for wordpress
