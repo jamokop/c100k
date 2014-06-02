@@ -10,8 +10,8 @@ wget http://www.dotdeb.org/dotdeb.gpg
 cat dotdeb.gpg | sudo apt-key add -
 
 # install debian packages
-apt-get update
-apt-get upgrade
+apt-get -y update
+apt-get -y upgrade
 
 apt-get -y install php5 php5-fpm php-pear php5-common php5-mcrypt php5-mysql php5-cli php5-gd php-apc
 apt-get -y install nginx
@@ -32,7 +32,7 @@ sed -i "s/DOMAIN/$siteName/g" app.conf
 # back up the original file
 cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
 mv vps-nginx.conf /etc/nginx/nginx.conf
-mv app.conf /etc/nginx/site-available/$siteName.conf
+mv app.conf /etc/nginx/sites-available/$siteName.conf 
 ln -s /etc/nginx/sites-available/$siteName.conf /etc/nginx/sites-enabled/$siteName.conf
 
 # ==============================================================
