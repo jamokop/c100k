@@ -1,4 +1,4 @@
-var siteName;
+#var siteName;
 if [ -z "$1" ]; then siteName="testsite.com"; else siteName=$1; fi 
 
 # set the debian sources
@@ -15,7 +15,7 @@ apt-get -y upgrade
 
 apt-get -y install php5 php5-fpm php-pear php5-common php5-mcrypt php5-mysql php5-cli php5-gd php-apc
 apt-get -y install nginx
-apt-get -y install redis-server
+#apt-get -y install redis-server
 export DEBIAN_FRONTEND=noninteractive
 apt-get -q -y install mysql-server mysql-client
 apt-get -y install varnish
@@ -58,10 +58,10 @@ mv wordpress.vcl /etc/varnish/default.vcl
 # Wordpress Installation
 # ==============================================================
 # get latest wordpress version
-mkdir -p /var/www/$sitename
+mkdir -p /var/www/$siteName
 wget http://wordpress.org/latest.tar.gz
 tar -zxvf latest.tar.gz
-mv wordpress/* /var/www/$sitename
+mv wordpress/* /var/www/$siteName/*
 rm -rf wordpress
 rm latest.tar.gz
 # set up mysql db for wordpress
