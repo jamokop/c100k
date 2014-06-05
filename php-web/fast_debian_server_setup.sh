@@ -61,7 +61,7 @@ mv wordpress.vcl /etc/varnish/default.vcl
 mkdir -p /var/www/$siteName
 wget http://wordpress.org/latest.tar.gz
 tar -zxvf latest.tar.gz
-mv wordpress/* /var/www/$siteName/*
+mv wordpress/. /var/www/$siteName/.
 rm -rf wordpress
 rm latest.tar.gz
 # set up mysql db for wordpress
