@@ -63,13 +63,16 @@ mv wordpress.vcl /etc/varnish/default.vcl
 cd /var/www/
 wget http://wordpress.org/latest.tar.gz
 tar -zxvf latest.tar.gz
-mv wordpress /var/www/$siteName
+mv wordpress $siteName
 mkdir -p /var/www/$siteName/logs
 rm latest.tar.gz
 # set up mysql db for wordpress
 echo "CREATE DATABASE IF NOT EXISTS wordpress;GRANT ALL PRIVILEGES ON wordpress.* TO admin@localhost IDENTIFIED BY 'pass' WITH GRANT OPTION;FLUSH PRIVILEGES;" | mysql -u root
 
 
-/etc/init.d/php5-fpm restart
-/etc/init.d/nginx restart
-/etc/init.d/varnish restart
+#/etc/init.d/php5-fpm restart
+#/etc/init.d/nginx restart
+#/etc/init.d/varnish restart
+service php5-fpm restart
+service nginx restart
+service varnish restart
