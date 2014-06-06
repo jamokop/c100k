@@ -2,6 +2,7 @@
 if [ -z "$1" ]; then siteName="testsite.com"; else siteName=$1; fi 
 
 # set the debian sources
+echo "deb http://packages.dotdeb.org wheezy all" >> /etc/apt/sources.list
 echo "deb http://packages.dotdeb.org wheezy-php55 all" >> /etc/apt/sources.list
 echo "deb-src http://packages.dotdeb.org wheezy-php55 all" >> /etc/apt/sources.list
 curl http://repo.varnish-cache.org/debian/GPG-key.txt | apt-key add -
@@ -13,6 +14,7 @@ cat dotdeb.gpg | sudo apt-key add -
 apt-get -y update
 apt-get -y upgrade
 
+#apt-get -y install php5 php5-fpm php-pear php5-common php5-mcrypt php5-mysql php5-cli php5-gd php-apc
 apt-get -y install php5 php5-fpm php-pear php5-common php5-mcrypt php5-mysql php5-cli php5-gd php-apc
 apt-get -y install nginx
 #apt-get -y install redis-server
