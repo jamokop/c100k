@@ -27,6 +27,7 @@ apt-get -y install varnish
 # ==============================================================
 wget https://raw.githubusercontent.com/rayhon/c100k/master/php-web/nginx/vps-nginx.conf
 wget https://raw.githubusercontent.com/rayhon/c100k/master/php-web/nginx/app.conf
+wget https://raw.githubusercontent.com/rayhon/c100k/master/php-web/nginx/nginx-logrotate.conf
 sed -i "s/DOMAIN/$siteName/g" vps-nginx.conf 
 sed -i "s/DOMAIN/$siteName/g" app.conf 
 # back up the original file
@@ -34,6 +35,7 @@ cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
 mv vps-nginx.conf /etc/nginx/nginx.conf
 mv app.conf /etc/nginx/sites-available/$siteName.conf 
 ln -s /etc/nginx/sites-available/$siteName.conf /etc/nginx/sites-enabled/$siteName.conf
+
 
 # ==============================================================
 # php5-fpm configuration
@@ -51,6 +53,7 @@ mv apc.ini /etc/php5/fpm/conf.d
 # ==============================================================
 wget https://raw.githubusercontent.com/rayhon/c100k/master/php-web/varnish/wordpress.vcl
 wget https://raw.githubusercontent.com/rayhon/c100k/master/php-web/varnish/varnish.txt
+wget https://raw.githubusercontent.com/rayhon/c100k/master/php-web/nginx/nginx-logrotate.conf
 mv /etc/varnish/default.vcl /etc/varnish/default.vcl.orig
 mv wordpress.vcl /etc/varnish/default.vcl
 
@@ -74,9 +77,25 @@ rm latest.tar.gz
 echo "CREATE DATABASE IF NOT EXISTS wordpress;GRANT ALL PRIVILEGES ON wordpress.* TO admin@localhost IDENTIFIED BY 'pass' WITH GRANT OPTION;FLUSH PRIVILEGES;" | mysql -u root
 
 
+# ==============================================================
+#set up logging (nginx and varnish)
+# ==============================================================
+#set up logrotate
+wget https://raw.githubusercontent.com/rayhon/c100k/master/php-web/nginx/nginx-logrotate.conf
+wget https://raw.githubusercontent.com/rayhon/c100k/master/php-web/varnish/varnish-logrotate
+sed -i "s/DOMAIN/$siteName/g" nginx-logrotate.conf 
+sed -i "s/DOMAIN/$siteName/g" varnish-logrotate.conf 
+mv nginx-logrotate.conf /etc/logrotate.d/nginx
+mv varnish-logrotate.conf /etc/logrotate.d/varnish
+
+echo "varnishncsa -a -w /var/www/$siteName/logs/varnish-access.log -D -P /var/run/varnishncsa.pid" >> /etc/rc.local
 #/etc/init.d/php5-fpm restart
 #/etc/init.d/nginx restart
 #/etc/init.d/varnish restart
 service php5-fpm restart
 service nginx restart
 service varnish restart
+
+
+#start varnish logging:
+varnishncsa -a -w /var/www/$siteName/logs/varnish-access.log -D -P /var/run/varnishncsa.pid
