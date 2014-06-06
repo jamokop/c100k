@@ -28,13 +28,17 @@ apt-get -y install varnish
 # ==============================================================
 wget https://raw.githubusercontent.com/rayhon/c100k/master/php-web/nginx/vps-nginx.conf
 wget https://raw.githubusercontent.com/rayhon/c100k/master/php-web/nginx/app.conf
+wget https://raw.githubusercontent.com/rayhon/c100k/master/php-web/nginx/default-sites-available.conf
 sed -i "s/DOMAIN/$siteName/g" vps-nginx.conf 
 sed -i "s/DOMAIN/$siteName/g" app.conf 
+sed -i "s/DOMAIN/$siteName/g" default-sites-available.conf 
 # back up the original file
 cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
 mv vps-nginx.conf /etc/nginx/nginx.conf
 mv app.conf /etc/nginx/sites-available/$siteName.conf 
 ln -s /etc/nginx/sites-available/$siteName.conf /etc/nginx/sites-enabled/$siteName.conf
+mv /etc/nginx/sites-available/default /etc/nginx/sites-available/default.orig
+mv default-sites-available.conf /etc/nginx/sites-available/default
 
 
 # ==============================================================
