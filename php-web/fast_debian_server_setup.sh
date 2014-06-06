@@ -2,7 +2,6 @@
 if [ -z "$1" ]; then siteName="testsite.com"; else siteName=$1; fi 
 
 # set the debian sources
-echo "deb http://packages.dotdeb.org wheezy all" >> /etc/apt/sources.list
 echo "deb http://packages.dotdeb.org wheezy-php55 all" >> /etc/apt/sources.list
 echo "deb-src http://packages.dotdeb.org wheezy-php55 all" >> /etc/apt/sources.list
 curl http://repo.varnish-cache.org/debian/GPG-key.txt | apt-key add -
