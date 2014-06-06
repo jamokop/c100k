@@ -15,7 +15,7 @@ apt-get -y update
 apt-get -y upgrade
 
 #apt-get -y install php5 php5-fpm php-pear php5-common php5-mcrypt php5-mysql php5-cli php5-gd php-apc
-apt-get -y install php5 php5-fpm php-pear php5-common php5-mcrypt php5-mysql php5-cli php5-gd php-apc
+apt-get -y install php5 php5-fpm php-pear php5-common php5-mcrypt php5-mysql php5-cli php5-gd
 apt-get -y install nginx
 #apt-get -y install redis-server
 export DEBIAN_FRONTEND=noninteractive
