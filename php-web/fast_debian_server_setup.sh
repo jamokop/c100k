@@ -82,19 +82,16 @@ echo "CREATE DATABASE IF NOT EXISTS wordpress;GRANT ALL PRIVILEGES ON wordpress.
 # ==============================================================
 #set up logrotate
 wget https://raw.githubusercontent.com/rayhon/c100k/master/php-web/nginx/nginx-logrotate.conf
-wget https://raw.githubusercontent.com/rayhon/c100k/master/php-web/varnish/varnish-logrotate
+wget https://raw.githubusercontent.com/rayhon/c100k/master/php-web/varnish/varnish-logrotate.conf
 sed -i "s/DOMAIN/$siteName/g" nginx-logrotate.conf 
 sed -i "s/DOMAIN/$siteName/g" varnish-logrotate.conf 
 mv nginx-logrotate.conf /etc/logrotate.d/nginx
 mv varnish-logrotate.conf /etc/logrotate.d/varnish
 
 echo "varnishncsa -a -w /var/www/$siteName/logs/varnish-access.log -D -P /var/run/varnishncsa.pid" >> /etc/rc.local
-#/etc/init.d/php5-fpm restart
-#/etc/init.d/nginx restart
-#/etc/init.d/varnish restart
-service php5-fpm restart
-service nginx restart
-service varnish restart
+/etc/init.d/php5-fpm restart
+/etc/init.d/nginx restart
+/etc/init.d/varnish restart
 
 
 #start varnish logging:
