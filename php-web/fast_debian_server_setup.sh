@@ -73,7 +73,7 @@ mv varnish.txt /etc/default/varnish
 cd /var/www/
 wget http://wordpress.org/latest.tar.gz
 tar -zxvf latest.tar.gz
-mv wordpress $siteName
+mv wordpress /var/www/$siteName
 mkdir -p /var/www/$siteName/logs
 rm latest.tar.gz
 # set up mysql db for wordpress
