@@ -91,6 +91,9 @@ sed -i "s/DOMAIN/$siteName/g" varnish-logrotate.conf
 mv nginx-logrotate.conf /etc/logrotate.d/nginx
 mv varnish-logrotate.conf /etc/logrotate.d/varnish
 
+echo "/etc/init.d/php5-fpm restart" >> /etc/rc.local
+echo "/etc/init.d/nginx restart" >> /etc/rc.local
+echo "/etc/init.d/varnish restart" >> /etc/rc.local
 echo "varnishncsa -a -w /var/www/$siteName/logs/varnish-access.log -D -P /var/run/varnishncsa.pid" >> /etc/rc.local
 /etc/init.d/php5-fpm restart
 /etc/init.d/nginx restart
