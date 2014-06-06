@@ -50,8 +50,12 @@ mv apc.ini /etc/php5/fpm/conf.d
 # Get the configured wordpress.vcl and replace the default.vcl
 # ==============================================================
 wget https://raw.githubusercontent.com/rayhon/c100k/master/php-web/varnish/wordpress.vcl
+wget https://raw.githubusercontent.com/rayhon/c100k/master/php-web/varnish/varnish.txt
 mv /etc/varnish/default.vcl /etc/varnish/default.vcl.orig
 mv wordpress.vcl /etc/varnish/default.vcl
+
+mv /etc/default/varnish /etc/default/varnish.orig
+mv varnish.txt /etc/default/varnish
 
 
 # ==============================================================
