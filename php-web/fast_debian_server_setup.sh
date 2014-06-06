@@ -28,7 +28,6 @@ apt-get -y install varnish
 # ==============================================================
 wget https://raw.githubusercontent.com/rayhon/c100k/master/php-web/nginx/vps-nginx.conf
 wget https://raw.githubusercontent.com/rayhon/c100k/master/php-web/nginx/app.conf
-wget https://raw.githubusercontent.com/rayhon/c100k/master/php-web/nginx/nginx-logrotate.conf
 sed -i "s/DOMAIN/$siteName/g" vps-nginx.conf 
 sed -i "s/DOMAIN/$siteName/g" app.conf 
 # back up the original file
@@ -54,7 +53,6 @@ mv apc.ini /etc/php5/fpm/conf.d
 # ==============================================================
 wget https://raw.githubusercontent.com/rayhon/c100k/master/php-web/varnish/wordpress.vcl
 wget https://raw.githubusercontent.com/rayhon/c100k/master/php-web/varnish/varnish.txt
-wget https://raw.githubusercontent.com/rayhon/c100k/master/php-web/nginx/nginx-logrotate.conf
 mv /etc/varnish/default.vcl /etc/varnish/default.vcl.orig
 mv wordpress.vcl /etc/varnish/default.vcl
 
