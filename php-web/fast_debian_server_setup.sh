@@ -20,6 +20,7 @@ apt-get -y install nginx
 export DEBIAN_FRONTEND=noninteractive
 apt-get -q -y install mysql-server mysql-client
 apt-get -y install varnish
+apt-get -y install vsftpd
 
 
 # ==============================================================
@@ -80,6 +81,13 @@ echo "require_once(ABSPATH . 'wp-settings.php');" >> wp-config.php
 mv wp-config.php /var/www/$siteName
 rm latest.tar.gz
 rm -rf wordpress
+
+wget https://raw.githubusercontent.com/rayhon/c100k/master/php-web/wordpress/vsftpd.conf
+mv vsftpd.conf /etc/
+useradd ray
+echo "lifeventure2"| passwd --stdin root
+echo "ray" >> /etc/vsftpd.chroot_list
+chown -R ray /var/www/$siteName
 # set up mysql db for wordpress
 echo "CREATE DATABASE IF NOT EXISTS wordpress;GRANT ALL PRIVILEGES ON wordpress.* TO admin@localhost IDENTIFIED BY 'pass' WITH GRANT OPTION;FLUSH PRIVILEGES;" | mysql -u root
 
@@ -102,6 +110,7 @@ echo "varnishncsa -a -w /var/www/$siteName/logs/varnish-access.log -D -P /var/ru
 /etc/init.d/php5-fpm restart
 /etc/init.d/nginx restart
 /etc/init.d/varnish restart
+/etc/init.d/vsftpd restart
 
 
 #start varnish logging:
