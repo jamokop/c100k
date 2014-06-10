@@ -84,8 +84,8 @@ rm -rf wordpress
 
 wget https://raw.githubusercontent.com/rayhon/c100k/master/php-web/wordpress/vsftpd.conf
 mv vsftpd.conf /etc/
-useradd ray
-echo "lifeventure2"| passwd --stdin root
+useradd ray --home /var/www/testsite.com
+usermod --password lifeventure2 ray
 echo "ray" >> /etc/vsftpd.chroot_list
 chown -R ray /var/www/$siteName
 # set up mysql db for wordpress
