@@ -75,8 +75,8 @@ wget http://wordpress.org/latest.tar.gz
 tar -zxvf latest.tar.gz
 mv wordpress/* /var/www/$siteName
 wget https://raw.githubusercontent.com/rayhon/c100k/master/php-web/wordpress/wp-config.php
-wget https://api.wordpress.org/secret-key/1.1/salt/ >> wp-config.php
-cat "require_once(ABSPATH . 'wp-settings.php');" >> wp-config.php
+curl -sS https://api.wordpress.org/secret-key/1.1/salt/ >> wp-config.php
+echo "require_once(ABSPATH . 'wp-settings.php');" >> wp-config.php
 mv wp-config.php /var/www/$siteName
 rm latest.tar.gz
 rm -rf wordpress

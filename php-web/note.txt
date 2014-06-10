@@ -28,6 +28,8 @@ General Rules to follow
 
 
 ref: http://dak1n1.com/blog/12-nginx-performance-tuning
+ref: http://www.smashingmagazine.com/2012/09/12/secrets-high-traffic-wordpress-blogs/
+ref: http://blog.smartcore.net.au/fast-wordpress-on-smartos-with-varnish/
 
 ---------------------------
 (1) Kernel Limit
