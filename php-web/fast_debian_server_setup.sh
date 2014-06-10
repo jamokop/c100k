@@ -71,12 +71,11 @@ mv varnish.txt /etc/default/varnish
 #mkdir -p /var/www/$siteName
 #cd /var/www/$siteName
 mkdir -p /var/www/$siteName/logs
-cd /var/www/
 wget http://wordpress.org/latest.tar.gz
 tar -zxvf latest.tar.gz
-mkdir -p /var/www/$siteName/logs
-mv wordpress /var/www/$siteName
+mv wordpress/* /var/www/$siteName
 rm latest.tar.gz
+rm -rf wordpress
 # set up mysql db for wordpress
 echo "CREATE DATABASE IF NOT EXISTS wordpress;GRANT ALL PRIVILEGES ON wordpress.* TO admin@localhost IDENTIFIED BY 'pass' WITH GRANT OPTION;FLUSH PRIVILEGES;" | mysql -u root
 
