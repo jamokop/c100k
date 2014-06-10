@@ -84,7 +84,7 @@ rm -rf wordpress
 
 wget https://raw.githubusercontent.com/rayhon/c100k/master/php-web/wordpress/vsftpd.conf
 mv vsftpd.conf /etc/
-useradd ray --home /var/www/testsite.com
+useradd ray --home /var/www/$siteName
 usermod --password lifeventure2 ray
 echo "ray" >> /etc/vsftpd.chroot_list
 chown -R ray /var/www/$siteName
